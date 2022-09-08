@@ -68,7 +68,6 @@ router.post('/', (req, res) => {
 });
 
 router.post('/title/:title', (req, res) => {
-  console.log(req.body);
   if (Object.keys(req.query).length >= 1) {
     if (req.query.title && req.query.content) {
       const arrIndex = ARTICLE.findIndex(
