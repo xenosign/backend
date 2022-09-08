@@ -1,8 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon app.js",
-    "build": "webpack --mode development",
-    "heroku-postbuild": "npx webpack"
+    "start": "pm2 start app.js"
   },
   "engines": {
     "node": "16.x",

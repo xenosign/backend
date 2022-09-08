@@ -16,6 +16,7 @@ const ARTICLE = [
 ];
 
 router.get('/', (req, res) => {
+  console.log('!');
   const articleLen = ARTICLE.length;
   res.render('board', { ARTICLE, articleCounts: articleLen });
 });
