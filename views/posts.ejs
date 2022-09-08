@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>글 목록 보여주기</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/posts.css">
+</head>
+
+<body>
+    <h1>포스팅 목록</h1>
+    <h2>총 포스팅 개수 <%= postCount%>
+    </h2>
+
+    <ul>
+        <%if(postCount>0){%>
+            <%for(let i=0; i<postCount;i++){%>
+                <li>
+                    <h3>No.<%=i+1%>
+                    </h3>
+                    <p>title : <%=POST[i].title%>
+                    </p>
+                    <p>content : <%=POST[i].content%>
+                    </p>
+                </li>
+                <%}%>
+                    <%}%>
+
+    </ul>
+    <form action="/posts" method="POST">
+        <input type="text" name="title" placeholder="블로그 제목" class="input_box title"> <br>
+        <textarea name="content" placeholder="내용을 입력하세요." class="input_box content"></textarea>
+        <div class="btn-wrapper">
+            <input type="submit" value="등록하기" class="btn">
+        </div>
+
+    </form>
+</body>
+
+</html>
