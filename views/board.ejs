@@ -148,7 +148,7 @@
 
 <script>
   function deleteArticle(title) {
-    fetch(`http://localhost:4000/board/title/${title}`, {
+    fetch(`board/title/${title}`, {
       method: 'delete',
       headers: {
         'Content-type': 'application/json'

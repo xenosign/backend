@@ -4,6 +4,19 @@ const express = require('express');
 
 const router = express.Router();
 
+const USER = [
+  {
+    id: 'tetz',
+    name: 'tetz',
+    email: 'tetz@naver.com',
+  },
+  {
+    id: 'tetz',
+    name: 'tetz',
+    email: 'tetz@naver.com',
+  },
+];
+
 // const mongoClient = require('./mongo');
 
 // async function getUsers() {
@@ -24,7 +37,7 @@ const router = express.Router();
 // }
 
 router.get('/', async (req, res) => {
-  const USER = await getUsers();
+  // const USER = await getUsers();
   const userLen = USER.length;
   res.render('users', {
     USER,
@@ -34,7 +47,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const USER = await getUsers();
+  // const USER = await getUsers();
   const userData = USER.find((user) => user.id === req.params.id);
   if (userData) {
     res.send(userData);
@@ -46,7 +59,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const USER = await getUsers();
+  // const USER = await getUsers();
   console.log(USER);
   if (Object.keys(req.query).length >= 1) {
     if (req.query.id && req.query.name && req.query.email) {
@@ -56,7 +69,7 @@ router.post('/', async (req, res) => {
         email: req.query.email,
       };
       USER.push(newUser);
-      await updateUsers(USER);
+      // await updateUsers(USER);
       res.redirect('/users');
     } else {
       const err = new Error('Unexpected query');
@@ -71,7 +84,7 @@ router.post('/', async (req, res) => {
         email: req.query.email,
       };
       USER.push(newUser);
-      await updateUsers(USER);
+      // await updateUsers(USER);
       res.redirect('/users');
     } else {
       const err = new Error('Unexpected query');
@@ -86,7 +99,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-  const USER = await getUsers();
+  // const USER = await getUsers();
   if (req.query.id && req.query.name) {
     const userData = USER.find((user) => user.id === req.params.id);
     if (userData) {
@@ -97,7 +110,7 @@ router.put('/:id', async (req, res) => {
         email: req.query.email,
       };
       USER[arrIndex] = modifyUser;
-      await updateUsers(USER);
+      // await updateUsers(USER);
       res.redirect('/users');
     } else {
       const err = new Error('ID not found');
@@ -108,12 +121,12 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  const USER = await getUsers();
+  // const USER = await getUsers();
   const arrIndex = USER.findIndex((user) => user.id === req.params.id);
   console.log(USER);
   if (arrIndex !== -1) {
     USER.splice(arrIndex, 1);
-    const result = await updateUsers(USER);
+    // const result = await updateUsers(USER);
     res.redirect('/users');
   } else {
     const err = new Error('ID not found');

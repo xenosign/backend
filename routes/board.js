@@ -120,7 +120,7 @@ router.delete('/title/:title', (req, res) => {
   );
   if (arrIndex !== -1) {
     ARTICLE.splice(arrIndex, 1);
-    res.send('글 삭제 완료');
+    res.redirect('/board');
   } else {
     const err = new Error('해당 제목을 가진 글이 없습니다.');
     err.statusCode = 404;
