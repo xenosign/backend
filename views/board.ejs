@@ -122,24 +122,24 @@
       <div class="board_body">
         <ul class="board">
           <% if (articleCounts> 0) { %>
-            <% for(let i=0; i < articleCounts; i++) { %>
-              <li>
-                <div class="title">
-                  <%= ARTICLE[i].title %>
-                </div>
-                <div class="content">
-                  <%= ARTICLE[i].content %>
-                </div>
-                <div class="foot">
-                  <a class="btn orange" href="board/modify/<%= ARTICLE[i].title %>">수정</a>
-                  <a class="btn blue" href="/board" onclick="deleteArticle('<%= ARTICLE[i].title %>')">삭제</a>
-                </div>
-              </li>
-              <% } %>
-                <% } else { %>
-                  <li>
-                    <div class="title">글이 없습니다!</div>
-                    <% } %>
+          <% for(let i=0; i < articleCounts; i++) { %>
+          <li>
+            <div class="title">
+              <%= ARTICLE[i].title %>
+            </div>
+            <div class="content">
+              <%= ARTICLE[i].content %>
+            </div>
+            <div class="foot">
+              <a class="btn orange" href="board/modify/<%= ARTICLE[i].title %>">수정</a>
+              <a class="btn blue" href="#" onclick="deleteArticle('<%= ARTICLE[i].title %>')">삭제</a>
+            </div>
+          </li>
+          <% } %>
+          <% } else { %>
+          <li>
+            <div class="title">글이 없습니다!</div>
+            <% } %>
         </ul>
       </div>
     </div>
@@ -154,7 +154,7 @@
         'Content-type': 'application/json'
       },
     }).then((res) => {
-      console.log(res);
+      location.href = 'http://localhost:4000/board/'
     })
   }
 </script>

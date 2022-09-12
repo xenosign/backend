@@ -1,13 +1,18 @@
 // @ts-check
 const express = require('express');
 
+const cors = require('cors');
+
 const app = express();
 const PORT = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(cors());
+
 const router = require('./routes/index');
+
 const userRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
 const boardRouter = require('./routes/board');

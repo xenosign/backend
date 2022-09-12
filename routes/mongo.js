@@ -9,26 +9,27 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+// async function main() {
+//   await client.connect();
+
+//   const users = client.db('kdt1').collection('board');
+
+//   await users.deleteMany({});
+
+//   await users.insertMany([
+//     {
+//       title: 'test1',
+//       content: 'test1',
+//     },
+//     {
+//       title: 'test2',
+//       content: 'test2',
+//     },
+//   ]);
+
+//   await client.close();
+// }
+
+// main();
+
 module.exports = client;
-
-async function main() {
-  await client.connect();
-
-  const users = client.db('kdt1').collection('users');
-
-  await users.deleteMany({});
-  await users.insertMany([
-    {
-      id: 'tetz',
-      name: '이효석',
-      email: 'xenosign@naver.com',
-    },
-    {
-      id: 'test',
-      name: 'test',
-      email: 'test@naver.com',
-    },
-  ]);
-}
-
-main();
