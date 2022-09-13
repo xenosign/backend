@@ -136,11 +136,11 @@
       <form action="/board/title/<%=selectedArticle.title%>" method="POST" class="board_form">
         <div class="form_title">
           <h3>제목</h3>
-          <input type="text" name="title" value="<%= selectedArticle.title %>" />
+          <input type="text" name="title" value="<%= selectedArticle.title %>" required />
         </div>
         <div class="form_content">
           <h3>내용</h3>
-          <textarea name="content" id="content" cols="30" rows="10"><%= selectedArticle.content %>
+          <textarea name="content" id="content" cols="30" rows="10" required><%= selectedArticle.content %>
           </textarea>
         </div>
         <button type="submit">글 수정하기</button>
