@@ -9,6 +9,8 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+module.exports = client;
+
 // async function main() {
 //   await client.connect();
 
@@ -31,5 +33,3 @@ const client = new MongoClient(uri, {
 // }
 
 // main();
-
-module.exports = client;
