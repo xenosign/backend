@@ -77,12 +77,13 @@ router.get('/write', (req, res) => {
 });
 
 router.get('/modify/:title', async (req, res) => {
-  const ARTICLE = await getArticle();
+  const client = await mongoClient.connect();
+  const cursor = client.db('kdt1').collection('board');
+  const ARTICLE = await cursor.find({}).toArray();
   const arrIndex = ARTICLE.findIndex(
     (_article) => _article.title === req.params.title
   );
   const selectedArticle = ARTICLE[arrIndex];
-  await saveArticle(ARTICLE);
   res.render('board_modify', { selectedArticle });
 });
 
