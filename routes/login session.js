@@ -24,7 +24,6 @@ router.post('/', async (req, res) => {
     if (result !== null) {
       req.session.login = true;
       req.session.userId = req.body.id;
-      req.session.password = req.body.password;
       res.redirect('/board');
     } else {
       res.status(404);
