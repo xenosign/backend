@@ -5,12 +5,13 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 // 개별 모듈
 const localStrategy = require('./routes/localStrategy');
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -36,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 localStrategy();
 // Cookie-parser
-app.use(cookieParser());
+app.use(cookieParser('tetz'));
 
 const router = require('./routes/index');
 const boardRouter = require('./routes/board');

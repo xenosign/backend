@@ -6,7 +6,7 @@ const mongoClient = require('./mongo');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  if (req.session.login) {
+  if (req.session.login || req.signedCookies.user) {
     const client = await mongoClient.connect();
     const cursor = client.db('kdt1').collection('board');
     const ARTICLE = await cursor.find({}).toArray();
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
     res.render('board', {
       ARTICLE,
       articleCounts: articleLen,
-      userId: req.session.userId,
+      userId: req.session.userId ? req.session.userId : req.signedCookies.user,
     });
   } else if (req.user) {
     const client = await mongoClient.connect();
@@ -35,11 +35,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  if (req.session.login) {
+  if (req.session.login || req.signedCookies.user) {
     if (req.body) {
       if (req.body.title && req.body.content) {
         const newArticle = {
-          id: req.session.userId,
+          id: req.session.userId ? req.session.userId : req.signedCookies.user,
           title: req.body.title,
           content: req.body.content,
         };
@@ -87,7 +87,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/title/:title', async (req, res) => {
-  if (req.session.login || req.user) {
+  if (req.session.login || req.user || req.signedCookies.user) {
     if (req.body) {
       if (req.body.title && req.body.content) {
         const client = await mongoClient.connect();
@@ -113,7 +113,7 @@ router.post('/title/:title', async (req, res) => {
 });
 
 router.delete('/title/:title', async (req, res) => {
-  if (req.session.login || req.user) {
+  if (req.session.login || req.user || req.signedCookies.user) {
     const client = await mongoClient.connect();
     const cursor = client.db('kdt1').collection('board');
     const result = await cursor.deleteOne({ title: req.params.title });
@@ -129,7 +129,7 @@ router.delete('/title/:title', async (req, res) => {
 });
 
 router.get('/write', (req, res) => {
-  if (req.session.login || req.user) {
+  if (req.session.login || req.user || req.signedCookies.user) {
     res.render('board_write');
   } else {
     res.send('로그인 해주세요.<br><a href="/login">로그인 페이지로 이동</a>');
@@ -137,7 +137,7 @@ router.get('/write', (req, res) => {
 });
 
 router.get('/modify/:title', async (req, res) => {
-  if (req.session.login || req.user) {
+  if (req.session.login || req.user || req.signedCookies.user) {
     const client = await mongoClient.connect();
     const cursor = client.db('kdt1').collection('board');
     const ARTICLE = await cursor.find({}).toArray();

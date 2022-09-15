@@ -18,9 +18,13 @@ router.post('/', (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if (err) next(err);
+
+      const expireDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
       res.cookie('user', req.body.id, {
-        expires: new Date(Date.now() + 900000),
+        expires: expireDate,
         httpOnly: true,
+        signed: true,
       });
       res.redirect('/board');
     });
@@ -32,6 +36,7 @@ router.get('/logout', (req, res, next) => {
     if (err) {
       return next(err);
     }
+    res.clearCookie('user');
     return res.redirect('/');
   });
 });
