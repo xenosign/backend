@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 const mongoClient = require('./mongo');
 
@@ -22,6 +23,37 @@ module.exports = () => {
           }
         } else {
           cb(null, false, { message: '해당 id 가 없습니다.' });
+        }
+      }
+    )
+  );
+
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FB_CLIENT,
+        clientSecret: process.env.FB_CLIENT_SECRET,
+        callbackURL: process.env.FB_CB_URL,
+        passReqToCallback: true,
+      },
+      async (req, accessToken, refreshToken, profile, cb) => {
+        const client = await mongoClient.connect();
+        const userCursor = client.db('kdt1').collection('users');
+        const result = await userCursor.findOne({ id: profile.id });
+        if (result !== null) {
+          cb(null, result);
+        } else {
+          const newFBUser = {
+            id: profile.id,
+            name: profile.displayName,
+            provider: profile.provider,
+          };
+          const dbResult = await userCursor.insertOne(newFBUser);
+          if (dbResult.acknowledged) {
+            cb(null, newFBUser);
+          } else {
+            cb(null, false, { message: '페북 회원 생성 에러' });
+          }
         }
       }
     )

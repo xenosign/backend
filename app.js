@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 // 개별 모듈
-const localStrategy = require('./routes/localStrategy');
+const passportStrategy = require('./routes/passport');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -35,7 +35,7 @@ app.use(
 // Passport
 app.use(passport.initialize());
 app.use(passport.session());
-localStrategy();
+passportStrategy();
 // Cookie-parser
 app.use(cookieParser('tetz'));
 

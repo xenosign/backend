@@ -8,7 +8,9 @@ const isLogin = (req, res, next) => {
   if (req.session.login || req.user || req.signedCookies.user) {
     next();
   } else {
-    res.send('로그인 해주세요.<br><a href="/login">로그인 페이지로 이동</a>');
+    res.send(
+      '로그인 해주세요.<br><a href="/login">로그인 페이지로 이동</a><br><a href="/">메인 페이지로 이동</a>'
+    );
   }
 };
 
@@ -44,5 +46,18 @@ router.get('/logout', (req, res, next) => {
     return res.redirect('/');
   });
 });
+
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: 'email' })
+);
+
+router.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/board',
+    failureRedirect: '/',
+  })
+);
 
 module.exports = { router, isLogin };

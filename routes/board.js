@@ -12,14 +12,16 @@ router.get('/', login.isLogin, async (req, res) => {
   const ARTICLE = await cursor.find({}).toArray();
 
   const articleLen = ARTICLE.length;
+
   res.render('board', {
     ARTICLE,
     articleCounts: articleLen,
     userId: req.session.userId
       ? req.session.userId
-      : req.user
-      ? req.user
+      : req.user?.id
+      ? req.user?.id
       : req.signedCookies.user,
+    userName: req.user?.name ? req.user.name : null,
   });
 });
 
@@ -33,8 +35,8 @@ router.post('/', login.isLogin, async (req, res) => {
       const newArticle = {
         id: req.session.userId
           ? req.session.userId
-          : req.user
-          ? req.user
+          : req.user.id
+          ? req.user.id
           : req.signedCookies.user,
         title: req.body.title,
         content: req.body.content,
