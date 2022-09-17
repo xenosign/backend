@@ -4,6 +4,14 @@ const passport = require('passport');
 
 const router = express.Router();
 
+const isLogin = (req, res, next) => {
+  if (req.session.login || req.user || req.signedCookies.user) {
+    next();
+  } else {
+    res.send('로그인 해주세요.<br><a href="/login">로그인 페이지로 이동</a>');
+  }
+};
+
 router.get('/', async (req, res) => {
   res.render('login');
 });
@@ -19,8 +27,9 @@ router.post('/', (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) next(err);
       res.cookie('user', req.body.id, {
-        expires: new Date(Date.now() + 900000),
+        expires: new Date(Date.now() + 1000 * 60),
         httpOnly: true,
+        signed: true,
       });
       res.redirect('/board');
     });
@@ -36,4 +45,4 @@ router.get('/logout', (req, res, next) => {
   });
 });
 
-module.exports = router;
+module.exports = { router, isLogin };

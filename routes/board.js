@@ -2,18 +2,11 @@
 const express = require('express');
 
 const mongoClient = require('./mongo');
+const login = require('./login');
 
 const router = express.Router();
 
-function isLogin(req, res, next) {
-  if (req.session.login || req.user) {
-    next();
-  } else {
-    res.send('로그인 해주세요.<br><a href="/login">로그인 페이지로 이동</a>');
-  }
-}
-
-router.get('/', isLogin, async (req, res) => {
+router.get('/', login.isLogin, async (req, res) => {
   const client = await mongoClient.connect();
   const cursor = client.db('kdt1').collection('board');
   const ARTICLE = await cursor.find({}).toArray();
@@ -22,19 +15,27 @@ router.get('/', isLogin, async (req, res) => {
   res.render('board', {
     ARTICLE,
     articleCounts: articleLen,
-    userId: req.session.userId ? req.session.userId : req.user.id,
+    userId: req.session.userId
+      ? req.session.userId
+      : req.user
+      ? req.user
+      : req.signedCookies.user,
   });
 });
 
-router.get('/write', isLogin, (req, res) => {
+router.get('/write', login.isLogin, (req, res) => {
   res.render('board_write');
 });
 
-router.post('/', isLogin, async (req, res) => {
+router.post('/', login.isLogin, async (req, res) => {
   if (req.body) {
     if (req.body.title && req.body.content) {
       const newArticle = {
-        id: req.session.userId ? req.session.userId : req.user.id,
+        id: req.session.userId
+          ? req.session.userId
+          : req.user
+          ? req.user
+          : req.signedCookies.user,
         title: req.body.title,
         content: req.body.content,
       };
@@ -55,7 +56,7 @@ router.post('/', isLogin, async (req, res) => {
   }
 });
 
-router.get('/modify/:title', isLogin, async (req, res) => {
+router.get('/modify/:title', login.isLogin, async (req, res) => {
   const client = await mongoClient.connect();
   const cursor = client.db('kdt1').collection('board');
   const ARTICLE = await cursor.find({}).toArray();
@@ -66,7 +67,7 @@ router.get('/modify/:title', isLogin, async (req, res) => {
   res.render('board_modify', { selectedArticle });
 });
 
-router.post('/title/:title', isLogin, async (req, res) => {
+router.post('/title/:title', login.isLogin, async (req, res) => {
   // 기존 코드
   if (req.body) {
     if (req.body.title && req.body.content) {
@@ -89,7 +90,7 @@ router.post('/title/:title', isLogin, async (req, res) => {
   }
 });
 
-router.delete('/title/:title', isLogin, async (req, res) => {
+router.delete('/title/:title', login.isLogin, async (req, res) => {
   const client = await mongoClient.connect();
   const cursor = client.db('kdt1').collection('board');
   const result = await cursor.deleteOne({ title: req.params.title });

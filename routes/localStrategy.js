@@ -39,6 +39,6 @@ module.exports = () => {
     const client = await mongoClient.connect();
     const userCursor = client.db('kdt1').collection('users');
     const result = await userCursor.findOne({ id });
-    if (result) cb(null, result);
+    if (result) cb(null, result.id);
   });
 };
