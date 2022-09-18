@@ -13,6 +13,8 @@ router.get('/', login.isLogin, async (req, res) => {
 
   const articleLen = ARTICLE.length;
 
+  console.log(req.user);
+
   res.render('board', {
     ARTICLE,
     articleCounts: articleLen,
@@ -21,7 +23,6 @@ router.get('/', login.isLogin, async (req, res) => {
       : req.user?.id
       ? req.user?.id
       : req.signedCookies.user,
-    userName: req.user?.name ? req.user.name : null,
   });
 });
 
@@ -38,6 +39,7 @@ router.post('/', login.isLogin, async (req, res) => {
           : req.user.id
           ? req.user.id
           : req.signedCookies.user,
+        userName: req.user?.name ? req.user.name : req.user?.id,
         title: req.body.title,
         content: req.body.content,
       };

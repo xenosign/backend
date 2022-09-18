@@ -130,7 +130,7 @@
           <% for(let i=0; i < articleCounts; i++) { %>
           <li>
             <div class="author">
-              작성자 : <%= ARTICLE[i].id %>
+              작성자 : <%= ARTICLE[i].userName ? ARTICLE[i].userName : ARTICLE[i].id %>
             </div>
             <div class="title">
               <%= ARTICLE[i].title %>

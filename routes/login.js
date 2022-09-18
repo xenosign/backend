@@ -60,4 +60,14 @@ router.get(
   })
 );
 
+router.get('/auth/naver', passport.authenticate('naver'));
+
+router.get(
+  '/auth/naver/callback',
+  passport.authenticate('naver', {
+    successRedirect: '/board',
+    failureRedirect: '/',
+  })
+);
+
 module.exports = { router, isLogin };

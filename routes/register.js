@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
     const result = await userCursor.insertOne({
       id: req.body.id,
       password: req.body.password,
+      name: req.body.id,
     });
     if (result.acknowledged) {
       res.send('회원 가입 성공!<br><a href="/login">로그인 페이지로 이동</a>');
