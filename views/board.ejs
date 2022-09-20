@@ -127,29 +127,34 @@
       <div class="board_body">
         <ul class="board">
           <% if (articleCounts> 0) { %>
-          <% for(let i=0; i < articleCounts; i++) { %>
-          <li>
-            <div class="author">
-              작성자 : <%= ARTICLE[i].userName ? ARTICLE[i].userName : ARTICLE[i].id %>
-            </div>
-            <div class="title">
-              <%= ARTICLE[i].title %>
-            </div>
-            <div class="content">
-              <%= ARTICLE[i].content %>
-            </div>
-            <div class="foot">
-              <% if (ARTICLE[i].id === userId) { %>
-              <a class="btn orange" href="board/modify/<%= ARTICLE[i].title %>">수정</a>
-              <a class="btn blue" href="#" onclick="deleteArticle('<%= ARTICLE[i].title %>')">삭제</a>
+            <% for(let i=0; i < articleCounts; i++) { %>
+              <li>
+                <div class="author">
+                  작성자 : <%= ARTICLE[i].userName ? ARTICLE[i].userName : ARTICLE[i].id %>
+                </div>
+                <div class="title">
+                  <%= ARTICLE[i].title %>
+                </div>
+                <div class="content">
+                  <%= ARTICLE[i].content %>
+                </div>
+                <div class="content">
+                  <% if (ARTICLE[i].img !=null) { %>
+                    <img src="uploads/<%= ARTICLE[i].img %>" width="500">
+                    <% } %>
+                </div>
+                <div class="foot">
+                  <% if (ARTICLE[i].id===userId) { %>
+                    <a class="btn orange" href="board/modify/<%= ARTICLE[i].title %>">수정</a>
+                    <a class="btn blue" href="#" onclick="deleteArticle('<%= ARTICLE[i].title %>')">삭제</a>
+                    <% } %>
+                </div>
+              </li>
               <% } %>
-            </div>
-          </li>
-          <% } %>
-          <% } else { %>
-          <li>
-            <div class="title">글이 없습니다!</div>
-            <% } %>
+                <% } else { %>
+                  <li>
+                    <div class="title">글이 없습니다!</div>
+                    <% } %>
         </ul>
       </div>
     </div>

@@ -70,4 +70,24 @@ router.get(
   })
 );
 
+router.get('/auth/google', passport.authenticate('google', { scope: 'email' }));
+
+router.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/board',
+    failureRedirect: '/',
+  })
+);
+
+router.get('/auth/kakao', passport.authenticate('kakao'));
+
+router.get(
+  '/auth/kakao/callback',
+  passport.authenticate('kakao', {
+    successRedirect: '/board',
+    failureRedirect: '/',
+  })
+);
+
 module.exports = { router, isLogin };

@@ -18,6 +18,7 @@ app.set('views', 'views');
 
 // 스태틱 폴더 설정
 app.use(express.static('public'));
+app.use('/uploads', express.static('uploads'));
 // Body-parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,11 +44,13 @@ const router = require('./routes/index');
 const boardRouter = require('./routes/board');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
+const chatRouter = require('./routes/chat');
 
 app.use('/', router);
 app.use('/board', boardRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter.router);
+app.use('/chat', chatRouter);
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
