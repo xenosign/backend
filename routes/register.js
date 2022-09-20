@@ -1,11 +1,33 @@
 // @ts-check
 const express = require('express');
 
+const crypto = require('crypto');
+
 const mongoClient = require('./mongo');
 
 const router = express.Router();
 
+let salt;
+
+function createHashedPassword(password) {
+  // return crypto.createHash('sha512').update(password).digest('base64');
+  salt = crypto.randomBytes(64).toString('base64');
+  return crypto.pbkdf2Sync(password, salt, 10, 64, 'sha512').toString('base64');
+  // 해싱할 값, salt, 해시 함수 반복 횟수, 해시 값 길이, 해시 알고리즘
+}
+
+const verifyPassword = (password, salt, userPassword) => {
+  const hashed = crypto
+    .pbkdf2Sync(password, salt, 10, 64, 'sha512')
+    .toString('base64');
+
+  if (hashed === userPassword) return true;
+  return false;
+};
+
 router.get('/', async (req, res) => {
+  const userPw = createHashedPassword('1234');
+  console.log(verifyPassword('1234', salt, userPw));
   res.render('register');
 });
 
