@@ -48,7 +48,7 @@ const chatRouter = require('./routes/chat');
 
 app.use('/', router);
 app.use('/board', boardRouter);
-app.use('/register', registerRouter);
+app.use('/register', registerRouter.router);
 app.use('/login', loginRouter.router);
 app.use('/chat', chatRouter);
 

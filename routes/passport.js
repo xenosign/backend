@@ -7,6 +7,8 @@ const KakaoStrategy = require('passport-kakao').Strategy;
 
 const mongoClient = require('./mongo');
 
+const verifyModule = require('./register');
+
 module.exports = () => {
   passport.use(
     new LocalStrategy(
@@ -19,10 +21,24 @@ module.exports = () => {
         const userCursor = client.db('kdt1').collection('users');
         const result = await userCursor.findOne({ id });
         if (result !== null) {
-          if (result.password === password) {
-            cb(null, result);
+          console.log(result.salt);
+          if (result.salt !== undefined) {
+            const passwordResult = verifyModule.verifyPassword(
+              password,
+              result.salt,
+              result.password
+            );
+            if (passwordResult) {
+              cb(null, result);
+            } else {
+              cb(null, result);
+            }
           } else {
-            cb(null, false, { message: '비밀번호가 다릅니다.' });
+            if (result.password === password) {
+              cb(null, result);
+            } else {
+              cb(null, false, { message: '비밀번호가 다릅니다.' });
+            }
           }
         } else {
           cb(null, false, { message: '해당 id 가 없습니다.' });
