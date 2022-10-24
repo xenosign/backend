@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const WebSocketServer = require('ws').Server;
 
-const wss = new WebSocketServer({ port: 3000 });
+const wss = new WebSocketServer({ port: 4000 });
 
 wss.on('connection', (ws) => {
   // ws.send('저는 서버입니다! 들리십니까?');
