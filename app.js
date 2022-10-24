@@ -11,7 +11,7 @@ require('dotenv').config();
 const passportStrategy = require('./routes/passport');
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = 4000;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
