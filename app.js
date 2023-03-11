@@ -38,6 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 passportStrategy();
 // Cookie-parser
+// Cookie-parser
 app.use(cookieParser('tetz'));
 
 const router = require('./routes/index');
